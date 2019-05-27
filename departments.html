@@ -1,0 +1,76 @@
+<html>
+<head>
+  <meta charset="UTF-8">  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.11/angular.min.js"></script>
+    <script>
+        var app=angular.module("MyApp",[]);
+        app.controller("Mycontroller", function($scope,$http)
+        {              
+            $scope.searchemp=function()
+            {
+                $http.get('TiedonHakeminen_1.php')
+                .success(function(data)
+                {
+                   $scope.getdetails=data; 
+                });
+            }
+        });
+    </script>
+       
+   <style>
+     table{
+        margin-top: 15px;
+         width: 50%;
+         border-radius: 2px;
+         border-style: double;
+         font-family: cursive;
+    
+    } 
+       input{
+           width: 250px;
+           border-radius: 3px;
+           font-family: cursive;
+       }
+    
+       
+</style>
+</head>
+<body>
+    <center>
+        <div ng-app="MyApp" ng-controller="Mycontroller" 
+             ng-init="searchemp()">
+        <h2>Tietojen hakeminen MySql- tietokannasta hakukenttäkäyttäen</h2>
+        <h3>Käyttäen Angular JS</h3>
+        <a href="index.html">Employees</a>
+        <a href="departments.html">Departments</a>
+        <hr/>
+            Hae: &nbsp;
+            <input placeholder="Syötä osaston_id .." type="text" ng-model="emp.DEPT"/>&nbsp;
+            
+            <input placeholder="Syötä managerin nimi .." type="text" ng-model="emp.MANAGER"/>&nbsp;
+            
+            <input placeholder="Työnimike .." type="text" ng-model="emp.DUTY"/>&nbsp;
+            
+            <input placeholder="Budjetti .." type="text" ng-model="emp.BUDGET"/>&nbsp;
+            
+            
+            <table border="2" style="background-color: azure">
+                
+                <tr>
+                    <th>Osasto_ID</th>
+                    <th>Manageri</th>
+                    <th>Työnimike</th>
+                    <th>Budjetti</th>
+                    
+                </tr>
+                <tr ng-repeat="emp in getdetails | filter:emp">
+                    <td>{{emp.DEPT}}</td>
+                    <td>{{emp.MANAGER}}</td>
+                    <td>{{emp.DUTY}}</td>
+                    <td>{{emp.BUDGET}}</td>
+                </tr>
+            </table>
+        </div>
+    </center>
+</body>
+</html>

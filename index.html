@@ -1,0 +1,85 @@
+<html>
+<head>
+  <meta charset="UTF-8">  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.11/angular.min.js"></script>
+    <script>
+        var app=angular.module("MyApp",[]);
+        app.controller("Mycontroller", function($scope,$http)
+        {              
+            $scope.searchemp=function()
+            {
+                $http.get('TiedonHakeminen.php')
+                .success(function(data)
+                {
+                   $scope.getdetails=data; 
+                });
+            }
+        });
+    </script>
+    <style>
+     table{
+        margin-top: 15px;
+         width: 70%;
+         border-radius: 2px;
+         border-style: double;
+         font-family: cursive;
+    
+    } 
+       input{
+           width: 250px;
+           border-radius: 3px;
+           font-family: cursive;
+       }
+    
+       
+</style>
+</head>
+<body>
+    <center>
+        <div ng-app="MyApp" ng-controller="Mycontroller" 
+             ng-init="searchemp()">
+        <h2>Tietojen hakeminen MySql- tietokannasta hakukenttäkäyttäen</h2>
+        <h3>Käyttäen Angular JS</h3>
+        <a href="index.html">Employees</a>
+        <a href="departments.html">Departments</a>
+        <hr/>
+            Hae: &nbsp;
+            <input placeholder="Syötä tyntekijän ID-numero .." type="text" ng-model="emp.EMPNUM"/>&nbsp;
+            
+            <input placeholder="Syötä osaston nimi .." type="text" ng-model="emp.DEPT"/>&nbsp;
+            
+            <input placeholder="Työntekijän sukunimi .." type="text" ng-model="emp.SURNAME"/>&nbsp;
+            
+            <input placeholder="Työntekijän etunimi .." type="text" ng-model="emp.GNAME"/>&nbsp;
+            
+              <input placeholder="Syötä Rate arvo .." type="text" ng-model="emp.RATE"/>
+            
+            <table border="1" style="background-color: azure">
+                
+                <tr>
+                    <th>Työntekijä_ID</th>
+                    <th>Osasto</th>
+                    <th>Sukunimi</th>
+                    <th>Etunimi</th>
+                    <th>Osoite</th>
+                    <th>Kaupunki</th>
+                    <th>PC-koodi</th>
+                    <th>Puhelin</th>
+                    <th>Rate-arvo</th>
+                </tr>
+                <tr ng-repeat="emp in getdetails | filter:emp">
+                    <td>{{emp.EMPNUM}}</td>
+                    <td>{{emp.DEPT}}</td>
+                    <td>{{emp.SURNAME}}</td>
+                    <td>{{emp.GNAME}}</td>
+                    <td>{{emp.ADDRESS}}</td>
+                    <td>{{emp.CITY}}</td>
+                    <td>{{emp.PC}}</td>
+                    <td>{{emp.PHONE}}</td>
+                    <td>{{emp.RATE}}</td>
+                </tr>
+            </table>
+        </div>
+    </center>
+</body>
+</html>
